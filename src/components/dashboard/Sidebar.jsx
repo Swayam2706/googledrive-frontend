@@ -27,6 +27,8 @@ const Sidebar = ({ isCollapsed, onToggle, currentPath, onNavigate }) => {
   const MAX_STORAGE = 15 * 1024 * 1024 * 1024; // 15GB
   const used = user?.storageUsed || 0;
   const percentage = Math.min((used / MAX_STORAGE) * 100, 100);
+  // Ensure a minimum visible width when storage is used
+  const displayPercentage = used > 0 ? Math.max(percentage, 1.5) : 0;
 
   const menuItems = [
     {
@@ -170,7 +172,7 @@ const Sidebar = ({ isCollapsed, onToggle, currentPath, onNavigate }) => {
                 <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
                   <motion.div
                     initial={{ width: 0 }}
-                    animate={{ width: `${percentage}%` }}
+                    animate={{ width: `${displayPercentage}%` }}
                     transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
                     className={cn(
                       "h-full rounded-full",
@@ -219,7 +221,7 @@ const Sidebar = ({ isCollapsed, onToggle, currentPath, onNavigate }) => {
           <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
             <motion.div
               initial={{ width: 0 }}
-              animate={{ width: `${percentage}%` }}
+              animate={{ width: `${displayPercentage}%` }}
               transition={{ duration: 1, delay: 0.3 }}
               className={cn(
                 "h-full rounded-full",
