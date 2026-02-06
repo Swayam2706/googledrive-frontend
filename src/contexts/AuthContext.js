@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
   // Create axios instance with interceptor to always use current token
   const api = useMemo(() => {
     const instance = axios.create({
-      baseURL: 'http://localhost:5000',
+      baseURL: process.env.REACT_APP_API_URL,
       headers: {
         'Content-Type': 'application/json'
       }
