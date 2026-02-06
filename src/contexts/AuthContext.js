@@ -17,13 +17,20 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState(() => localStorage.getItem('token'));
 
+  // API URL - uses environment variable, falls back for development
+  const API_URL = process.env.REACT_APP_API_URL || '';
+  
+  // Debug: Log API URL (check browser console to verify)
+  console.log('API URL:', API_URL || '(empty - using relative URLs)');
+
   // Create axios instance with interceptor to always use current token
   const api = useMemo(() => {
     const instance = axios.create({
-      baseURL: process.env.REACT_APP_API_URL,
+      baseURL: API_URL,
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      timeout: 30000 // 30 second timeout (Render free tier can be slow to wake up)
     });
 
     // Add request interceptor to always include current token
